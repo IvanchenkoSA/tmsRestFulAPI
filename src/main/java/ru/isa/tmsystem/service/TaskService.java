@@ -44,4 +44,8 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
+    public void deleteAllTasks() {
+        taskRepository.deleteAll();
+    }
+
 }

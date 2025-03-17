@@ -46,4 +46,9 @@ public class TaskController {
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
+    @DeleteMapping("api/delete-all")
+    public void deleteAllTasks() {
+        taskService.deleteAllTasks();
+    }
+
 }
