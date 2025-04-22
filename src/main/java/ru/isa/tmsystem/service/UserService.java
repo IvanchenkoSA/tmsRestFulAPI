@@ -1,9 +1,10 @@
 package ru.isa.tmsystem.service;
 
-
 import org.springframework.stereotype.Service;
-import ru.isa.tmsystem.model.Client;
+import ru.isa.tmsystem.model.User;
 import ru.isa.tmsystem.repository.UserRepository;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -14,11 +15,21 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void createUser(Client client) {
-        userRepository.save(client);
+    public User createUser(User user) {
+        return userRepository.save(user);
     }
 
-    public void deleteUser(Client client) {
-        userRepository.deleteByEmail(client.getEmail());
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public User getUser(Long id) {
+        return userRepository.findByUsername(userRepository.getOne(id).getUsername());
+    }
+
+    public User deleteUser(Long userId) {
+        User user = getUser(userId);
+        userRepository.deleteById(userId);
+        return user;
     }
 }

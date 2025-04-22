@@ -1,10 +1,8 @@
 package ru.isa.tmsystem.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.isa.tmsystem.model.Client;
-import org.springframework.stereotype.Repository;
+import ru.isa.tmsystem.model.User;
 
-@Repository
-public interface UserRepository extends JpaRepository<Client, Long> {
-    void deleteByEmail(String email);
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findByUsername(String username);
 }

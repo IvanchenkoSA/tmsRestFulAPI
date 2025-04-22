@@ -1,28 +1,38 @@
 package ru.isa.tmsystem.controller;
 
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.isa.tmsystem.model.Client;
+import ru.isa.tmsystem.model.User;
 import ru.isa.tmsystem.service.UserService;
 
-@RestController
+import java.util.List;
+
+@RestController()
 public class UserController {
 
-    private final UserService userService;
+    private UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @PostMapping("/api/user/create")
-    public String createUser(@RequestBody Client client) {
-        userService.createUser(client);
-        return client.getAccess_type() + " created";
+    public User createUser(@RequestBody User user) {
+        return userService.createUser(user);
     }
 
-    @DeleteMapping("api/delete/{email}")
-    public void deleteUser(@PathVariable Client client) {
-        userService.deleteUser(client);
+    @GetMapping("/api/user/getAll")
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> list = userService.getAllUsers();
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/api/user/delete/{id}")
+    public ResponseEntity<User> deleteUser(@PathVariable Long id) {
+        User user = userService.deleteUser(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
 }

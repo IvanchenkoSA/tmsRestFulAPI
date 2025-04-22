@@ -1,69 +1,36 @@
 package ru.isa.tmsystem.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
+@Table(name = "tasks")
 public class Task {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @ManyToOne
-    @JoinColumn(name = "executor_user_id")
-    private Client executor;
-
-    private Long executorId;
+    private String title;
+    private String description;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
-    @NotNull
-    private Client author;
-
-    @Column(name = "author_id", insertable = false, updatable = false)
-    private Long authorId;
+    @JoinColumn(name = "author_id", nullable = false)
+    @JsonIgnore
+    private User author;
 
 
-    @OneToOne
-    @JoinColumn(name = "comment_id")
-    private Comment comment;
+    private Status status; // "в ожидании", "в процессе", "завершено"
+    private Priority priority; // "высокий", "средний", "низкий"
 
-
-    private String title;
-
-    private String description;
-
-    private STATUS status; // "в ожидании", "в процессе", "завершено"
-
-    private PRIORITY priority; // "высокий", "средний", "низкий"
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
-
-
-    public Task(String title, String description, Long executorId, Long authorId, STATUS status, PRIORITY priority) {
-        this.title = title;
-        this.description = description;
-        this.executorId = executorId;
-        this.authorId = authorId;
-        this.status = status;
-        this.priority = priority;
-    }
-
-    public Task(PRIORITY priority, STATUS status, String description, String title) {
+    public Task(Priority priority, Status status, String description, String title, User author) {
         this.priority = priority;
         this.status = status;
         this.description = description;
@@ -74,12 +41,19 @@ public class Task {
 
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public enum Priority {
+        HIGH, MEDIUM, LOW
+    }
+    public enum Status {
+        IN_PROGRESS, COMPLETED, IN_IDLE
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     public Long getId() {
@@ -88,42 +62,6 @@ public class Task {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Client getExecutor() {
-        return executor;
-    }
-
-    public void setExecutor(Client executor) {
-        this.executor = executor;
-    }
-
-    public Long getExecutorId() {
-        return executorId;
-    }
-
-    public void setExecutorId(Long executorId) {
-        this.executorId = executorId;
-    }
-
-    public Client getAuthor() {
-        return author;
-    }
-
-    public Long getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(Long authorId) {
-        this.authorId = authorId;
-    }
-
-    public Comment getComment() {
-        return comment;
-    }
-
-    public void setComment(Comment comment) {
-        this.comment = comment;
     }
 
     public String getTitle() {
@@ -142,45 +80,19 @@ public class Task {
         this.description = description;
     }
 
-    public STATUS getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(STATUS status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
-    public PRIORITY getPriority() {
+    public Priority getPriority() {
         return priority;
     }
 
-    public void setPriority(PRIORITY priority) {
+    public void setPriority(Priority priority) {
         this.priority = priority;
     }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public void setAuthor(Client author) {
-        this.author = author;
-    }
-
-
-    public enum PRIORITY {
-        HIGH,
-        MEDIUM,
-        LOW
-    }
-
-    public enum STATUS {
-        IN_ANTICIPATION,
-        IN_PROGRESS,
-        COMPLETED,
-    }
-
 }
