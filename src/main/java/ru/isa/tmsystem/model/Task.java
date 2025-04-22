@@ -35,6 +35,7 @@ public class Task {
         this.status = status;
         this.description = description;
         this.title = title;
+        this.author = author;
     }
 
     public Task() {

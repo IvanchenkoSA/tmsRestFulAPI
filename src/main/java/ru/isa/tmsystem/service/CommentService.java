@@ -46,7 +46,7 @@ public class CommentService {
 
 
     public List<Comment> getComments() {
-        return commentRepository.findAll();
+        return (List<Comment>) commentRepository.findAll();
     }
 
     public List<Comment> getCommentsByUserId(Long userId) {
