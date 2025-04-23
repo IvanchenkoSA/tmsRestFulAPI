@@ -3,10 +3,12 @@ package ru.isa.tmsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
 
+
+@Builder
 @Data
 @Entity
 @Table(name = "tasks")
