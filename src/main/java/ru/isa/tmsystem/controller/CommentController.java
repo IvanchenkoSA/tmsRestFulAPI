@@ -6,10 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.isa.tmsystem.dto.UserDTO;
 import ru.isa.tmsystem.model.Comment;
-import ru.isa.tmsystem.model.User;
 import ru.isa.tmsystem.repository.CommentRepository;
 import ru.isa.tmsystem.service.CommentService;
-import ru.isa.tmsystem.service.UserService;
 
 import java.util.List;
 
@@ -17,13 +15,10 @@ import java.util.List;
 public class CommentController {
 
 
-    private final CommentRepository commentRepository;
     private CommentService commentService;
-    private UserService userService;
 
     public CommentController(CommentService commentService, CommentRepository commentRepository) {
         this.commentService = commentService;
-        this.commentRepository = commentRepository;
     }
 
 
@@ -43,6 +38,12 @@ public class CommentController {
         List<Comment> list = commentService.getCommentsByUserId(userId);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
+
+    @PutMapping("/api/comment/update/{id}")
+    public void updateComment(@PathVariable Long id, @RequestParam String content) {
+        commentService.updateComment(content, id);
+    }
+
 
     @DeleteMapping("/api/comment/deleteByUserId/{userId}")
     public void deleteComments(@PathVariable Long userId) {

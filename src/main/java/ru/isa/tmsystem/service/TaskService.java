@@ -57,6 +57,11 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
+    public Task getTask(Long id) {
+        Optional<Task> optionalTask = taskRepository.findById(id);
+        return optionalTask.orElse(null);
+    }
+
     public void deleteAllTasks() {
         taskRepository.deleteAll();
     }

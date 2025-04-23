@@ -6,10 +6,7 @@ import ru.isa.tmsystem.model.User;
 import ru.isa.tmsystem.repository.CommentRepository;
 import ru.isa.tmsystem.repository.UserRepository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -42,6 +39,13 @@ public class CommentService {
 
     public void removeComment(Long commentId) {
         commentRepository.deleteById(commentId);
+    }
+
+    public void updateComment(String content, Long id) {
+        Optional<Comment> optionalComment = commentRepository.findById(id);
+        Comment newComment = optionalComment.orElseThrow(() -> new RuntimeException("Comment not found"));
+        newComment.setContent(content);
+        commentRepository.save(newComment);
     }
 
 

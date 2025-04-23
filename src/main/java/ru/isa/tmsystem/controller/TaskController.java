@@ -49,6 +49,12 @@ public class TaskController {
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
+    @GetMapping("/api/task/getById/{id}")
+    public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
+        Task task = taskService.getTask(id);
+        return new ResponseEntity<>(task, HttpStatus.OK);
+    }
+
     @DeleteMapping("api/task/delete-all")
     public void deleteAllTasks() {
         taskService.deleteAllTasks();

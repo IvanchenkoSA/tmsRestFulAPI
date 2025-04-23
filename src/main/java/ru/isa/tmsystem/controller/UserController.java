@@ -23,11 +23,31 @@ public class UserController {
         return userService.createUser(user);
     }
 
+    @GetMapping("/api/user/getUser/{id}")
+    public ResponseEntity<User> findUser(@PathVariable Long id) {
+        User user = userService.findUserById(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
     @GetMapping("/api/user/getAll")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> list = userService.getAllUsers();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
+
+    @PutMapping("/api/user/updateUser/{id}")
+    public void updateUser(
+            @PathVariable Long id,
+            @RequestParam(required = false) String username,
+            @RequestParam(required = false) String password,
+            @RequestParam(required = false) User.ROLE role) {
+        User user = userService.findUserById(id);
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setRole(role);
+        userService.updateUser(id, user);
+    }
+
 
     @DeleteMapping("/api/user/delete/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable Long id) {
