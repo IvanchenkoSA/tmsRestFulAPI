@@ -21,12 +21,13 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
 
-    public void addComment(String commentContent, Long userId) {
+    public Long addComment(String commentContent, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         Comment comment = new Comment(commentContent, user);
 //        comment.setContent(commentContent);
 //        comment.setUser(user);
         commentRepository.save(comment);
+        return comment.getId();
     }
 
     public void removeComments(Long userId) {

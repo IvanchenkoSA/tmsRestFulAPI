@@ -1,4 +1,6 @@
 package ru.isa.tmsystem.dto;
 
-public record UserDTO(String content, Long userId) {
+import ru.isa.tmsystem.model.User;
+
+public record UserDTO(String username, String password, User.ROLE role) {
 }

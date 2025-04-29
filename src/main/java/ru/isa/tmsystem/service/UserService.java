@@ -51,4 +51,8 @@ public class UserService {
         userRepository.deleteById(userId);
         return user;
     }
+
+    public void deleteAllUsers() {
+        userRepository.deleteAll();
+    }
 }

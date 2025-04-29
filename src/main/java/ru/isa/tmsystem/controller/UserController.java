@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.isa.tmsystem.dto.UserDTO;
 import ru.isa.tmsystem.model.User;
 import ru.isa.tmsystem.service.UserService;
 
@@ -21,11 +22,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    @Operation(summary = "Create user", description = "Returns user")
+    @Operation(summary = "Create user", description = "Returns userId")
     @PostMapping("/api/user/create")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public Long createUser(@RequestBody UserDTO userDTO) {
+        User user = new User(userDTO.username(), userDTO.password(), userDTO.role());
         userService.createUser(user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return user.getId();
     }
 
     @Operation(summary = "Get user by id", description = "Returns user")
@@ -56,11 +58,16 @@ public class UserController {
         userService.updateUser(id, user);
     }
 
-    @Operation(summary = "Delete user by id", description = "Deleted user and return deleted entity")
+    @Operation(summary = "Delete user by id", description = "Delete user")
     @DeleteMapping("/api/user/delete/{id}")
-    public ResponseEntity<User> deleteUser(@PathVariable Long id) {
-        User user = userService.deleteUser(id);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+    }
+
+    @Operation(summary = "Delete all users", description = "Deleted all users")
+    @DeleteMapping("/api/user/deleteAll")
+    public void deleteAllUsers() {
+        userService.deleteAllUsers();
     }
 
 }

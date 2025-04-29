@@ -34,10 +34,10 @@ public class TaskService {
         return taskRepository.save(newTask);
     }
 
-    public void updateTask(Long id, Task task) {
-        Optional<Task> optionalTask = taskRepository.findById(id);
+    public void updateTask(Task task) {
+        Optional<Task> optionalTask = taskRepository.findById(task.getId());
         if (optionalTask.isEmpty()) {
-            throw new IllegalStateException("Задачи с id: " + id + " не существует.");
+            throw new IllegalStateException("Задачи с id: " + task.getId() + " не существует.");
         }
         Task newTask = optionalTask.get();
 
@@ -66,4 +66,8 @@ public class TaskService {
         taskRepository.deleteAll();
     }
 
+//    public Task findById(Long id) {
+//        Optional<Task> optionalTask = taskRepository.findById(id);
+//        return optionalTask.orElse(null);
+//    }
 }

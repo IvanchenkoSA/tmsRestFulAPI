@@ -6,9 +6,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.isa.tmsystem.dto.UserDTO;
+import ru.isa.tmsystem.dto.CommentDTO;
 import ru.isa.tmsystem.model.Comment;
-import ru.isa.tmsystem.repository.CommentRepository;
 import ru.isa.tmsystem.service.CommentService;
 
 import java.util.List;
@@ -28,9 +27,9 @@ public class CommentController {
 
     @Operation(summary = "Create comment with using userId", description = "Returns comment content")
     @PostMapping("/api/comment/create")
-    public String createComment(@RequestBody UserDTO userDTO) {
-        commentService.addComment(userDTO.content(), userDTO.userId());
-        return "Comment " + userDTO.content() + " created";
+    public Long createComment(@RequestBody CommentDTO commentDTO) {
+        Long id = commentService.addComment(commentDTO.content(), commentDTO.userId());
+        return id;
     }
 
     @Operation(summary = "Get all comments", description = "Returns List<Comments>")
@@ -58,7 +57,7 @@ public class CommentController {
         commentService.removeComments(userId);
     }
 
-    @Operation(summary = "Delete comments by Id", description = "Remove comments by id")
+    @Operation(summary = "Delete comment by Id", description = "Remove comment by id")
     @DeleteMapping("/api/comment/deleteById/{Id}")
     public void deleteComment(@PathVariable Long Id) {
         commentService.removeComment(Id);
