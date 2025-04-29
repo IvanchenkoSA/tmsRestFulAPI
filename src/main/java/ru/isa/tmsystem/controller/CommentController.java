@@ -19,7 +19,7 @@ import java.util.List;
 public class CommentController {
 
 
-    private CommentService commentService;
+    private final CommentService commentService;
 
     public CommentController(CommentService commentService) {
         this.commentService = commentService;
@@ -28,8 +28,7 @@ public class CommentController {
     @Operation(summary = "Create comment with using userId", description = "Returns comment content")
     @PostMapping("/api/comment/create")
     public Long createComment(@RequestBody CommentDTO commentDTO) {
-        Long id = commentService.addComment(commentDTO.content(), commentDTO.userId());
-        return id;
+        return commentService.addComment(commentDTO.content(), commentDTO.userId());
     }
 
     @Operation(summary = "Get all comments", description = "Returns List<Comments>")

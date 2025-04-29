@@ -17,8 +17,8 @@ import java.util.List;
 @RestController
 public class TaskController {
 
-    private TaskService taskService;
-    private UserService userService;
+    private final TaskService taskService;
+    private final UserService userService;
 
     public TaskController(TaskService taskService, UserService userService) {
         this.taskService = taskService;

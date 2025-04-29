@@ -15,7 +15,7 @@ import java.util.Optional;
 public class TaskService {
 
 
-    private TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
     private final UserRepository userRepository;
 
     public TaskService(TaskRepository taskRepository, UserRepository userRepository) {

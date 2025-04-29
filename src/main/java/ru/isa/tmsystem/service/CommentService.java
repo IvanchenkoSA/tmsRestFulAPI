@@ -7,14 +7,13 @@ import ru.isa.tmsystem.repository.CommentRepository;
 import ru.isa.tmsystem.repository.UserRepository;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Service
 public class CommentService {
 
-    private UserRepository userRepository;
-    private CommentRepository commentRepository;
+    private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
     public CommentService(UserRepository userRepository, CommentRepository commentRepository) {
         this.userRepository = userRepository;
@@ -32,9 +31,9 @@ public class CommentService {
 
     public void removeComments(Long userId) {
         List<Comment> list = getComments();
-        list.stream().filter(comment -> comment.getUser().getId() != userId)
+        list.stream().filter(comment -> !Objects.equals(comment.getUser().getId(), userId))
                 .toList();
-        list.removeIf(comment -> comment.getUser().getId() != userId);
+        list.removeIf(comment -> !Objects.equals(comment.getUser().getId(), userId));
         commentRepository.deleteAll(list);
     }
 
